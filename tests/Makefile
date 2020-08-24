@@ -50,7 +50,7 @@ mkinstalldirs = $(SHELL) $(top_srcdir)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
 CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
-am__EXEEXT_1 = test-widget$(EXEEXT) test-completion$(EXEEXT)
+am__EXEEXT_1 = test-widget$(EXEEXT) test-completion$(EXEEXT) test-custom$(EXEEXT)
 am__EXEEXT_2 = test-languagemanager$(EXEEXT) \
 	test-printcompositor$(EXEEXT)
 PROGRAMS = $(noinst_PROGRAMS)
@@ -68,16 +68,27 @@ test_languagemanager_OBJECTS = $(am_test_languagemanager_OBJECTS)
 test_languagemanager_DEPENDENCIES =  \
 	$(top_builddir)/gtksourceview/libgtksourceview-2.0.la \
 	$(am__DEPENDENCIES_1)
+
+
 am_test_printcompositor_OBJECTS = test-printcompositor.$(OBJEXT)
 test_printcompositor_OBJECTS = $(am_test_printcompositor_OBJECTS)
 test_printcompositor_DEPENDENCIES =  \
 	$(top_builddir)/gtksourceview/libgtksourceview-2.0.la \
 	$(am__DEPENDENCIES_1)
+
 am_test_widget_OBJECTS = test-widget.$(OBJEXT)
 test_widget_OBJECTS = $(am_test_widget_OBJECTS)
 test_widget_DEPENDENCIES =  \
 	$(top_builddir)/gtksourceview/libgtksourceview-2.0.la \
 	$(am__DEPENDENCIES_1)
+
+am_test_custom_OBJECTS = test-custom.$(OBJEXT)
+test_custom_OBJECTS = $(am_test_custom_OBJECTS)
+test_custom_DEPENDENCIES =  \
+	$(top_builddir)/gtksourceview/libgtksourceview-2.0.la \
+	$(am__DEPENDENCIES_1)
+
+
 DEFAULT_INCLUDES = -I. -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -105,10 +116,10 @@ AM_V_GEN = $(am__v_GEN_$(V))
 am__v_GEN_ = $(am__v_GEN_$(AM_DEFAULT_VERBOSITY))
 am__v_GEN_0 = @echo "  GEN   " $@;
 SOURCES = $(test_completion_SOURCES) $(test_languagemanager_SOURCES) \
-	$(test_printcompositor_SOURCES) $(test_widget_SOURCES)
+	$(test_printcompositor_SOURCES) $(test_widget_SOURCES) $(test_custom_SOURCES)
 DIST_SOURCES = $(test_completion_SOURCES) \
 	$(test_languagemanager_SOURCES) \
-	$(test_printcompositor_SOURCES) $(test_widget_SOURCES)
+	$(test_printcompositor_SOURCES) $(test_widget_SOURCES) $(test_custom_SOURCES)
 ETAGS = etags
 CTAGS = ctags
 am__tty_colors = \
@@ -277,7 +288,8 @@ INCLUDES = \
 	$(DEP_CFLAGS)			\
 	$(TESTS_CFLAGS)
 
-TEST_PROGS = test-widget test-completion
+TEST_PROGS = test-widget test-completion test-custom
+
 test_widget_SOURCES = test-widget.c
 test_widget_LDADD = \
 	$(top_builddir)/gtksourceview/libgtksourceview-2.0.la \
@@ -286,6 +298,12 @@ test_widget_LDADD = \
 
 test_completion_SOURCES = test-completion.c
 test_completion_LDADD = \
+	$(top_builddir)/gtksourceview/libgtksourceview-2.0.la \
+	$(DEP_LIBS)			\
+	$(TESTS_LIBS)
+
+test_custom_SOURCES = test-custom.c
+test_custom_LDADD = \
 	$(top_builddir)/gtksourceview/libgtksourceview-2.0.la \
 	$(DEP_LIBS)			\
 	$(TESTS_LIBS)
@@ -374,6 +392,9 @@ test-printcompositor$(EXEEXT): $(test_printcompositor_OBJECTS) $(test_printcompo
 test-widget$(EXEEXT): $(test_widget_OBJECTS) $(test_widget_DEPENDENCIES) 
 	@rm -f test-widget$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(test_widget_OBJECTS) $(test_widget_LDADD) $(LIBS)
+test-custom$(EXEEXT): $(test_custom_OBJECTS) $(test_custom_DEPENDENCIES) 
+	@rm -f test-custom$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_custom_OBJECTS) $(test_custom_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -385,6 +406,7 @@ include ./$(DEPDIR)/test-completion.Po
 include ./$(DEPDIR)/test-languagemanager.Po
 include ./$(DEPDIR)/test-printcompositor.Po
 include ./$(DEPDIR)/test-widget.Po
+include ./$(DEPDIR)/test-custom.Po
 
 .c.o:
 	$(AM_V_CC)$(COMPILE) -MT $@ -MD -MP -MF $(DEPDIR)/$*.Tpo -c -o $@ $<
